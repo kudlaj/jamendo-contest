@@ -1,0 +1,126 @@
+@CHARSET "UTF-8";
+body	{
+	margin: 0px;
+    padding: 0px;
+	background-color: #8A2222;	
+	background: #8A2222;	 
+	background: url("../img/background.jpg");
+}
+	
+p, strong, h1, a, b, div	{
+	font-family:  'Homenaje', sans-serif;
+	font-size: 12pt;
+	text-align: justify;
+}
+li	{
+	font-family: 'Homenaje',sans-serif;
+	font-size: 12pt;
+	font-weight: normal;
+	padding:2px;
+}
+a {	
+	text-decoration: none;
+	color: #BF2323;
+}
+
+h1	{
+	font-family: 'Homenaje', sans-serif;
+	font-size: 22pt;
+	font-weight: 400;
+	padding-top:15px;
+}
+
+div#web	{
+	width: 975px;
+	margin:auto;	
+	background-color: #ffffff;	
+
+}
+div#header	{
+	width: 975px;
+}
+div#main	{
+	width: 975px;
+	height: 600px;
+
+}
+div#content	{
+	float: left;	
+	width: 610px;
+	height: 600px;
+	display: block;
+	padding-right: 5px;
+}
+
+div#sidebarLeft	{
+ 	float: left;
+ 	width: 150px;
+	padding-top:15px;
+}
+
+div#sidebarRight	{
+	text-align: right;
+	padding-top:25px;
+}
+
+ul {
+	list-style: none;	
+}
+
+ul#menu li	{
+	font-size: 18pt;
+	font-weight: normal;
+	padding:5px;
+}
+ul#menu li a 	{
+	font-family: 'Homenaje', sans-serif;
+	font-size: 18pt;
+}
+ul#menu li 	{
+	color: #D0CBCB;
+}
+
+li a 	{
+	text-decoration: none;
+
+}
+div#concert	{
+	padding-top:15px;	
+	padding-bottom:5px;	
+	border-bottom: 1px dashed;
+}
+div#concert div#title{
+	font-weight: bold;
+}
+div#past div#concert	{
+	color: #909090;
+}
+div#past a	{
+	color: #575252;
+}
+div#ff_foto	{
+	-moz-box-shadow: 3px 3px 5px #BEBEBE;
+	-webkit-box-shadow: 3px 3px 5px #BEBEBE;
+	box-shadow: 3px 3px 5px #BEBEBE;
+	 float: left;
+    height: 155px;
+    margin: 2px;
+    padding-top: 3px;
+    text-align: center;
+    vertical-align: bottom;
+    width: 148px;
+}
+
+div#page	{
+	clear: left;
+    padding-top: 20px;
+}
+
+div#page button	{
+	font-family: 'Homenaje',sans-serif;
+	font-size: 12pt;
+	border:solid black 1px;
+	color: #000000;
+	background-color: #ffffff;
+	margin-right: 3px;
+}

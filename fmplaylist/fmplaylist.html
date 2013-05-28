@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Free Music Playlist</title>
+<script type="text/javascript">
+window.SESSION_COOKIE_NAME = 'ID';
+</script>
+
+<script type="text/javascript" src="js/libs/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/libs/jquery.jplayer.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+<script type="text/javascript" src="js/libs/jplayer.playlist.js"></script>
+<script type="text/javascript" src="js/libs/mod.csstransforms.min.js"></script>
+<script type="text/javascript" src="js/libs/jquery.xdomain.js"></script>
+<script type="text/javascript" src="js/libs/jquery.ajaxQueue.min.js"></script>
+
+<script type="text/javascript" src="js/private.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript" src="js/fmp.plugins.js"></script>
+<script type="text/javascript" src="js/track.js"></script>
+<script type="text/javascript" src="js/artist.js"></script>
+<script type="text/javascript" src="js/fma.js"></script>
+<script type="text/javascript" src="js/jamendo.js"></script>
+<script type="text/javascript" src="js/soundcloud.js"></script>
+<script type="text/javascript" src="js/echonest.js"></script>
+<script type="text/javascript" src="js/lastfm.js"></script>
+<script type="text/javascript" src="js/search.js"></script>
+<script type="text/javascript" src="js/playlist.request.js"></script>
+<script type="text/javascript" src="js/playlist.info.js"></script>
+<script type="text/javascript" src="js/fmplaylist.script.js"></script>
+
+
+
+<link href="css/skin-dark/jplayer.dark.css" rel="stylesheet" type="text/css" />
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+<style>
+	body	{
+		font-family: 'PT Sans', Verdana,Arial,sans-serif;
+		font-size: 12px;
+		margin: 0px;
+    	padding: 0px;
+	}
+	a:LINK	{
+		font-weight: bold;
+		text-decoration: none;
+		color: #B12D2D;
+	}
+	div#trackInfo span a	{
+		color:#A8CFFF;
+	}
+	
+	
+	#songInfo div.title	{
+		font-size: 16px;
+		font-weight: bold;
+		margin-top:10px;
+		margin-bottom:10px;
+	}
+	#songInfo div	{
+		font-size: 14px;
+	}
+	div#result li	{
+		font-size: 11px;
+		list-style: none;
+		display: block;
+		width: 530px;
+		padding: 5px; 
+		clear: left;
+		height: 55px;
+		border-bottom: solid 1px #666666;	
+	}
+	
+	div#result ul	{
+		padding: 0px;
+    	width: 550px;
+
+	}
+	li[name="genres"] span, li[name="band"], span[name="genres"] {
+		cursor: pointer;		
+	}
+	li[name="genres"] span, span[name="genres"]	{
+		padding:3px;
+		margin-right:5px;
+		background-color: #8F8F8F;
+		-moz-border-radius:    3px;
+	   	-webkit-border-radius: 3px;
+	   	border-radius:         3px;
+		display: inline-block;
+		margin-bottom:3px;
+	}
+	
+	div#result li:nth-of-type(even)	{
+		
+	}
+	
+	div#result li:nth-of-type(odd)	{
+		
+	}
+	div#result li:nth-child(n+2)	{
+	
+	}
+	
+	div#result li:HOVER	{
+	 background-color: #D3D3D3;
+	}
+	
+	ul#resultList li div#source	{
+		float: left;
+	}
+	ul#resultList li div#controls	{
+		float: right;
+		margin-right:30px;
+		font-size: 13px;
+	}
+	ul#resultList div#J, ul#resultList div#SC, ul#resultList div#FMA	{
+	clear:both;
+	font-size: 20px;
+	font-family: 'PT Sans', sans-serif;
+	font-weight: bold;
+	padding-left: 40px;
+	background-repeat: no-repeat;
+	height: 35px;
+	}
+	ul#resultList div#J	{
+		background-image: url("img/jamendo_icon.png") ;
+		padding-left: 140px;
+		color:#FFFFFF;
+		border-bottom:1px solid #601087;
+	}
+	ul#resultList div#SC	{
+		background-image: url("img/soundcloud_icon.png");
+		padding-left: 80px;
+		color:#F67A0C;
+		border-bottom:1px solid #F67A0C;
+	}
+	ul#resultList div#FMA	{
+		background-image: url("img/fma_icon.png");
+		padding-left: 80px;
+		color:#F67A0C;
+		border-bottom:1px solid #F67A0C;
+	}
+	
+	.bgGradient	{
+		background-image: -moz-linear-gradient(
+		  top, #fff, #efefef
+		);
+		background-image: -webkit-gradient(
+		   linear,left top, left bottom,
+		   color-stop(0, #fff),
+		   color-stop(1, #efefef)
+		);
+		background-image: linear-gradient(
+		  top, #fff, #efefef
+		);
+	}
+	
+	div#albumcover	{
+	float:left;
+	display: block;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	}
+	div#audio	{
+		margin-top: 10px;
+	}
+	div#header	{
+		float: none;	
+    	margin: 0; padding: 10px;
+    	width:100%;
+    	background-color: #000000;
+    	color: #ffffff;
+    	height: 75px;
+	}
+	div#header div#title	{
+	font-size: 20px;
+	font-family: 'PT Sans', sans-serif;
+	font-weight: bold;
+	float: left;
+	margin-left: 10px;
+	}
+	div#search	{
+		float: right;
+		right:100px;
+		position: relative;
+	}
+	input#searchField	{
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		height: 17px;
+		border: none;
+		padding: 5px;
+	}
+	button#doQuery	{
+	-moz-border-radius: 10px;
+		border-radius: 10px;
+		height: 29px;
+		border: none;
+		padding: 5px;
+		padding-left:15px;
+		padding-right:15px;
+		font-weight: bold;
+	}
+	
+	div#resultColum	{
+		float: left;	
+    	margin: 0; padding: 0px;
+    	margin-left: 15px;
+	}
+	div#playListColum	{
+		float: left; 
+		width: 425px;
+		margin-left: 10px;
+	}
+	div#player	{
+		clear: both;
+		display: none;
+	}
+	
+	#exportPlaylist, #buttonPlaylistInfo	{
+		display:block;
+		width: 220px;
+		cursor: pointer;
+		padding:4px;
+		padding-left:8px;
+		font-size: 12px;
+		font-weight: bold;
+		background-color: #D3D3D3;
+		-moz-border-radius:    3px;
+	   -webkit-border-radius: 3px;
+	   border-radius:         3px;
+	}
+	#songInfo	{
+		display:none;
+		width: 422px;
+		height: 220px;
+		margin-bottom: 20px;
+		background-repeat: no-repeat;
+		background-position: 5px 5px;
+		-moz-box-shadow: 3px 3px 5px #BEBEBE;
+		-webkit-box-shadow: 3px 3px 5px #BEBEBE;
+		box-shadow: 3px 3px 5px #BEBEBE;
+	}
+	#songInfo ul 	{
+		width:150px;
+	}
+	div#searchInfo li 	{
+		list-style: none;
+		color:#000000;
+		font-family: 'PT Sans', Verdana,Arial,sans-serif;
+		font-size: 12px;
+		height: 18px;
+		font-weight: bold;
+	}
+	
+	
+	div#searchInfo  	{
+		
+		clear: left;
+		color: #ffffff;
+		font-weight: bold;
+		height: 90px;
+		width:450px;
+		padding:5px;
+		background: #FFFCBB;
+		border: solid 1px #000000;
+	}
+	
+	#trackInfo	{
+		clear: left;
+		position:relative;
+		color: #ffffff;
+		font-weight: bold;
+		height: 80px;
+		width:250px;
+	}
+	#trackInfo {
+	   height: 80px;
+	   background: #4C4F52;
+	   position: relative;
+	   -moz-border-radius:    10px;
+	   -webkit-border-radius: 10px;
+	   border-radius:         10px;
+	}
+	#trackInfo:before {
+	   content:"";
+	   position: absolute;
+	   right: 100%;
+	   top: 26px;
+	   width: 0;
+	   height: 0;
+	   border-top: 13px solid transparent;
+	   border-right: 26px solid #4C4F52;
+	   border-bottom: 13px solid transparent;
+	}
+	#trackInfo span 	{
+		margin-left: 20px;
+		position: relative;
+		top: 10px;
+		display: block;
+	}
+	#trackInfo span:nth-child(1)	{
+		margin-bottom: 5px;
+	}
+	#trackImg 	{
+		width: 120px;
+		height: 100px;
+		background-repeat: no-repeat;
+	}
+	#songInfo ul	{
+		left: 90px;
+		top: 5px;
+    	position: relative;		
+	}
+	#songInfo li 	{
+		width: 278px;
+		font-size: 11px;
+		list-style: none;
+		display: block;
+		padding: 3px; 
+		background-color: #ffffff;
+		opacity:0.7;
+		filter:alpha(opacity=70); /* For IE8 and earlier */
+
+	}
+	div#songInfo li span 	{
+		font-weight: bold;
+		cursor: pointer;
+	}
+	div#songInfo li span#similar 	{
+		color: #B12D2D;
+	}
+	div#more	{
+		font-weight: bold;
+    	margin-top: 10px;
+    	text-align: right;
+    	cursor: pointer;
+	}
+	div#exportar, div#buttonPlaylistInfoDiv	{
+		margin-bottom: 15px;
+		margin-left: 5px;
+		
+	}
+	div#advancedSearchOptions	{
+		margin-bottom:20px;
+	}
+	
+	div#advancedSearchOptions p	{
+		font-weight: bold;
+	}
+	div#advancedSearchOptions p.title	{
+		font-size: 14px;
+	}
+	div#topTracks span 	{
+		cursor: pointer;
+		font-weight: bold;
+		text-decoration: none;
+		color: #B12D2D;
+	}
+	div#searchBy	{
+	
+	}
+	
+	div#orderBy	{
+		display: table;
+	}
+	
+	div#orderByJamendo	{
+		float:left;
+		width: 150px;
+	}
+	div#orderBySC	{
+		margin: 0 120px 0 20px;
+		display: table;
+		width: 150px;
+	}
+	div#orderByFMA	{
+		float: right;
+	}
+	
+	div#artistDescription	{
+		padding:10px;
+		background-color: #D3D3D3;
+		-moz-border-radius:    10px;
+	   	-webkit-border-radius: 10px;
+	   	border-radius:         10px;
+	   	margin-bottom: 		20px;
+	   	width: 530px;
+	}
+	
+	div#playlistInfo	{
+		padding:10px;
+		padding-bottom:30px;
+		background-color: #D3D3D3;
+		-moz-border-radius:    10px;
+	   	-webkit-border-radius: 10px;
+	   	border-radius:         10px;
+	   	margin-bottom: 		20px;
+	   	margin-top: 		10px;
+	   	width: 530px;
+	}
+	
+	img#iconInfo 	{
+	margin-left: 15px;
+	position: relative;
+	top: 3px;
+	}
+</style>
+
+</head>
+<body>
+<div id="header">
+	<div id="title">Free Music PlayList</div>
+	<div id="search">
+		<input type="text" name="searchField" id="searchField" size="50" value=""/>
+		<button id="doQuery">search</button>
+		<div style="clear:both;">
+		<label title="Jamendo"><input type="checkbox" name="sites" id="check_jamendo" value="J" checked="checked"/>Jamendo</label>
+		<label title="SoundCloud"><input type="checkbox" name="sites" id="check_soundcloud" value="SC" checked="checked"/>SoundCloud</label>
+		<label title="FMA"><input type="checkbox" name="sites" id="check_fma" value="FMA" checked="checked"/>FMA</label>
+		</div>
+	</div>
+</div>
+<div id="playListColum">
+&nbsp;
+<div id="songInfo">&nbsp;</div>
+<div id="buttonPlaylistInfoDiv" style="display: none;margin-bottom: 5px;">
+	<span id="buttonPlaylistInfo" onClick="playlistInfo()">show / refresh Playlist Info</span>
+</div>
+<div id="exportar" style="display: none;">
+	<span id="exportPlaylist" >share Playlist</span>
+</div>
+<div id="jquery_playlist" class="jp-jplayer"></div>
+
+		<div id="jplaylist_container" class="jp-audio">
+			<div class="jp-type-playlist">
+				
+				<div class="jp-gui jp-interface">
+					<ul class="jp-controls">
+						<li><a href="javascript:;" class="jp-previous" tabindex="1">previous</a></li>
+						<li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
+						<li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
+						<li><a href="javascript:;" class="jp-next" tabindex="1">next</a></li>
+						<li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
+						<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+						<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+						<li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
+					</ul>
+					<div class="jp-progress">
+						<div class="jp-seek-bar">
+							<div class="jp-play-bar"></div>
+						</div>
+					</div>
+					<div class="jp-volume-bar">
+						<div class="jp-volume-bar-value"></div>
+					</div>
+					<div class="jp-time-holder">
+						<div class="jp-current-time"></div>
+						<div class="jp-duration"></div>
+					</div>
+					
+				</div>
+				<div class="jp-playlist">
+					<ul>
+						<li></li>
+					</ul>
+				</div>
+				<div class="jp-no-solution">
+					<span>Update Required</span>
+					To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+				</div>
+			</div>
+		</div>
+
+</div>
+
+<div id="resultColum">
+<div id="playlistInfo" style="display: none;"></div>
+<div id="result">
+	<ul id="resultList">
+		<li>no results</li>
+	</ul>
+</div>
+</div>
+
+<div id="player">
+<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+<div id="jp_container_1" class="jp-audio">
+	<div class="jp-type-single">
+		<div class="jp-gui jp-interface">
+			<ul class="jp-controls">
+				<li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
+				<li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
+				<li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
+				<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+				<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+				<li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
+			</ul>
+			<div class="jp-progress">
+				<div class="jp-seek-bar">
+					<div class="jp-play-bar"></div>
+				</div>
+			</div>
+			<div class="jp-volume-bar">
+				<div class="jp-volume-bar-value"></div>
+			</div>
+			<div class="jp-time-holder">
+				<div class="jp-current-time"></div>
+				<div class="jp-duration"></div>
+
+				<ul class="jp-toggles">
+					<li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat">repeat</a></li>
+					<li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="jp-title">
+			<ul>
+				<li>Cro Magnon Man</li>
+			</ul>
+		</div>
+		<div class="jp-no-solution">
+			<span>Update Required</span>
+			To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+		</div>
+	</div>
+</div>
+</div>
+<div id="searchInfo" style="display: none;"> </div>
+<div id="trackInfo" style="display: none;"> </div>
+
+</body>
+</html>
