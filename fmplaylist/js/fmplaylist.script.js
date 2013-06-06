@@ -10,7 +10,7 @@
  * Date: 6st may 2013
  */
 
-var host = "http://www.freakfandango.es";
+var host = "http://kudlaj.github.io/fmplaylist";
 var page = 1;
 var per_page = 20;
 
@@ -161,6 +161,9 @@ jQuery(document).ready(function() {
 function playlistInfo()	{
 	var pList = playerPlaylist.getPlaylist();
 	playListInfo.showInfo ($('#playlistInfo'), pList);
+	try {
+		history.pushState({ url: "playlist"}, "Playlist", playListInfo.getUrl(pList));
+	} catch (e) {}
 }
 
 /**
@@ -720,10 +723,8 @@ function getTrackFromArrayById(id)	{
 function exportPlayList()	{
 	$("#exportar").empty();
 	var pList = playerPlaylist.getPlaylist();
-	var urlExportar= host+"/fmplaylist.html?playlist="
-	$.each(pList,function(index,value) {
-		urlExportar = urlExportar + pList[index].id + ",";
-	});
+	var urlExportar= host+"/fmplaylist.html" + playListInfo.getUrl(pList);
+	
 	var input = "<div>Link: </div><input type='text' size='60' onclick='$(\"#linkExport\").select();' value='"+urlExportar+"' id='linkExport'/>";
 	$("#exportar").append("<span id='exportPlaylist' onClick='exportPlayList()'>share Playlist</span>");
 	$("#exportar").append(input);

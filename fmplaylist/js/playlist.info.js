@@ -8,6 +8,13 @@ var playListInfo = (function ($, window, document, undefined) {
 	//Arrays of the artists order by numb. of appearance
 	var arrArtistas;
 	
+	var _getUrl = function (pList)	{
+		var url= "?playlist="
+		$.each(pList,function(index,value) {
+			url = url + pList[index].id + ",";
+		});
+		return url;
+	};
 	/**
 	 * showInfo
 	 * displays tags and images of the playlist
@@ -155,6 +162,9 @@ var playListInfo = (function ($, window, document, undefined) {
 
 		showInfo: function(panel, pList)	{
 			_showInfo(panel, pList);
+		},
+		getUrl: function( pList)	{
+			return _getUrl( pList);
 		},
 		hideInfo: function(panel)	{
 			_hideInfo(panel);
