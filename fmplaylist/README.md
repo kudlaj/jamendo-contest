@@ -10,6 +10,7 @@ Discover the most popular songs from different sites.
 Add music by introducing the URL of a site from those cloud services.
 Get songs recommended based on a Last.fm username.
 
+
 Dual licensed under the MIT and GPL licenses.
  - http://www.opensource.org/licenses/mit-license.php
   - http://www.gnu.org/copyleft/gpl.html
